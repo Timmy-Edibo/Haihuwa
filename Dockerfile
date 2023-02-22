@@ -2,7 +2,7 @@ FROM python:3.8-alpine
 
 WORKDIR /app/
 
-COPY ./app/requirements.txt .
+COPY ./requirements.txt .
 
 COPY okteto-stack.yaml .
 

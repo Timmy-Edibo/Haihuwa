@@ -39,7 +39,13 @@ def users(user_form: UsersForm, db: Session = Depends(get_db)):
     try:
         hashed_password = hash(user_form.hashed_password)
         user_form.hashed_password = hashed_password
-
+        
+        check_email = db.query(models.Users).filter(models.Users.email==user_form.email).first()
+        
+        if check_email :
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, 
+                detail="email address already exist in database")
+    
         query = models.Users(**user_form.__dict__)
         db.add(query)
         db.commit()
@@ -57,7 +63,8 @@ def users(user_form: UsersForm, db: Session = Depends(get_db)):
 
         else: raise e    
 
-    return {"response":{"id":query.id, "address":query.address, "email":query.email, "phone":query.phone_number,  "is_active":query.is_active}}
+    return {"response":{"id":query.id, "address":query.address,
+                         "email":query.email, "phone":query.phone_number,  "is_active":query.is_active}}
 
 
 

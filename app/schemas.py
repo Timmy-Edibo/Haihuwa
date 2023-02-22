@@ -10,6 +10,18 @@ class UsersForm(BaseModel):
     address: str
     is_active: bool
 
+
+class UsersFormResponse(BaseModel):
+    name: str
+    email: EmailStr
+    phone_number: str
+    address: str
+    is_active: bool
+
+    class Config:
+        orm_mode = True
+
+
 class InsuranceForm(BaseModel):
     user: int
 

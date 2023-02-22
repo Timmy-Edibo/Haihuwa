@@ -2,7 +2,7 @@ from fastapi import Depends, APIRouter, HTTPException, status
 from sqlalchemy.orm import Session
 
 from .. import  models
-from ..schemas import UsersForm, InsuranceForm, QRPAgentForm
+from ..schemas import UsersForm, InsuranceForm, QRPAgentForm, UsersFormResponse
 from ..database import SessionLocal, engine
 from sqlalchemy.exc import IntegrityError
 
@@ -57,7 +57,7 @@ def users(user_form: UsersForm, db: Session = Depends(get_db)):
 
         else: raise e    
 
-    return query
+    return {"response":{"id":query.id, "address":query.address, "email":query.email, "phone":query.phone_number,  "is_active":query.is_active}}
 
 
 
